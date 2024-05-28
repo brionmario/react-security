@@ -22,4 +22,5 @@ fetch('http://localhost:3002/hack/window', {
   .then(res => res.json())
   .then(data => {
     console.log(data);
-  });
+  })
+  .catch(error => console.error(error));
