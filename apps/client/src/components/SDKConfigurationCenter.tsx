@@ -1,7 +1,7 @@
 import {FC, PropsWithChildren, useEffect, useState} from 'react';
 import Card from '@oxygen-ui/react/Card';
 import Typography from '@oxygen-ui/react/Typography';
-import {AuthReactConfig, useAuthContext} from '@asgardeo/auth-react';
+import {AuthReactConfig, Storage, useAuthContext} from '@asgardeo/auth-react';
 import {codeToHtml} from 'shiki';
 import Box from '@oxygen-ui/react/Box';
 import {FormHelperText, InputLabel, ToggleButton, ToggleButtonGroup} from '@oxygen-ui/react';
@@ -14,17 +14,22 @@ const SDKConfigurationCenter: FC<SDKConfigurationCenterProps> = ({children}) => 
   const {updateConfig, signOut, signIn} = useAuthContext();
 
   const [sdkConfig, setSDKConfig] = useState<string>('');
-  const [sdkStorage, setSDKStorage] = useState<string>('sessionStorage');
+  const [sdkStorage, setSDKStorage] = useState<Storage>(Storage.SessionStorage);
 
   useEffect(() => {
     (async () => {
-      const config: AuthReactConfig = getSDKConfigFromStorage();
+      const config: AuthReactConfig | null = getSDKConfigFromStorage();
+
+      if (!config) {
+        return;
+      }
+
       setParsedSDKConfig(config);
     })();
   }, []);
 
-  const getSDKConfigFromStorage = () => {
-    let config: AuthReactConfig = {};
+  const getSDKConfigFromStorage = (): AuthReactConfig | null => {
+    let config: AuthReactConfig | null = null;
 
     Object.entries(sessionStorage).forEach(([key, value]) => {
       if (key.startsWith('config_data-instance')) {
@@ -39,7 +44,7 @@ const SDKConfigurationCenter: FC<SDKConfigurationCenterProps> = ({children}) => 
     return config;
   };
 
-  const setParsedSDKConfig = async (config: string) => {
+  const setParsedSDKConfig = async (config: AuthReactConfig) => {
     setSDKConfig(
       await codeToHtml(JSON.stringify(config, null, 2), {
         lang: 'json',
@@ -53,12 +58,12 @@ const SDKConfigurationCenter: FC<SDKConfigurationCenterProps> = ({children}) => 
       storage: sdkStorage,
     });
 
-    const config: AuthReactConfig = getSDKConfigFromStorage();
+    const config: AuthReactConfig | null = getSDKConfigFromStorage();
 
     setParsedSDKConfig({
       ...config,
       storage: sdkStorage,
-    });
+    } as AuthReactConfig);
 
     sessionStorage.setItem('xss_playground-sdk-storage', sdkStorage);
 
@@ -103,7 +108,7 @@ const SDKConfigurationCenter: FC<SDKConfigurationCenterProps> = ({children}) => 
                 value={sdkStorage}
                 size="small"
                 exclusive
-                onChange={(_, value: string) => setSDKStorage(value)}
+                onChange={(_, value: Storage) => setSDKStorage(value)}
                 aria-label="text alignment"
               >
                 <ToggleButton value="sessionStorage" aria-label="left aligned">

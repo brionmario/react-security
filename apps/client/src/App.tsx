@@ -1,5 +1,5 @@
-import {AppBar, ColorModeToggle, Toolbar, ThemeProvider, Box, Container, useColorScheme} from '@oxygen-ui/react';
-import {ReactElement, useEffect} from 'react';
+import {AppBar, ColorModeToggle, Toolbar, Box, Container, useColorScheme} from '@oxygen-ui/react';
+import {ReactElement} from 'react';
 import XSSZone from './components/XSSZone';
 import ActionCenter from './components/SDKConfigurationCenter.tsx';
 import Typography from '@oxygen-ui/react/Typography';
