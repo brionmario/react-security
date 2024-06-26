@@ -1,0 +1,12 @@
+:root {
+  --react-security-vulnerable-zone-background: #f8fafd;
+}
+
+:root[data-mui-color-scheme="dark"] {
+  --react-security-vulnerable-zone-background: #28292a;
+}
+
+.VulnerableZoneCard.MuiPaper-root {
+  border-color: var(--oxygen-palette-divider);
+  background: var(--react-security-vulnerable-zone-background);
+}

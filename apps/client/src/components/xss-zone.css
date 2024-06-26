@@ -1,0 +1,12 @@
+:root {
+  --react-security-xss-zone-background: #f8fafd;
+}
+
+:root[data-mui-color-scheme="dark"] {
+  --react-security-xss-zone-background: #28292a;
+}
+
+.XSSZoneCard.MuiPaper-root {
+  border-color: var(--oxygen-palette-divider);
+  background: var(--react-security-xss-zone-background);
+}

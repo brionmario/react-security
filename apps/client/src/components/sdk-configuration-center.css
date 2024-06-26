@@ -1,0 +1,14 @@
+:root {}
+
+.SDKConfigurationCenterCard .MuiPaper-root {
+  border-color: var(--oxygen-palette-divider);
+}
+
+.SDKConfigurationCenterCard .MuiPaper-root {
+  padding: 0;
+}
+
+.SDKConfigurationCenterCard .MuiPaper-root .shiki {
+  margin: 0;
+  padding: 1em;
+}

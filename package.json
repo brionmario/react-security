@@ -1,20 +1,48 @@
 {
-  "name": "react-security",
   "private": true,
+  "name": "@brionmario/react-security",
+  "version": "0.0.0",
+  "description": "Collection of samples showcasing React security aspects.",
+  "keywords": [
+    "react",
+    "security"
+  ],
+  "homepage": "https://github.com/brionmario/react-security#readme",
+  "bugs": {
+    "url": "https://github.com/brionmario/react-security/issues"
+  },
+  "license": "MIT",
+  "author": "Brion Mario",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brionmario/react-security"
+  },
   "scripts": {
-    "build": "turbo build",
-    "dev": "turbo dev",
-    "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "build": "turbo run build",
+    "changeset": "changeset",
+    "dev": "turbo run dev --parallel",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,json,md,mdx}\"",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
+    "publish:packages": "changeset publish",
+    "publish:release": "semantic-release",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "version:packages": "changeset version && pnpm install --lockfile-only"
   },
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
-    "@repo/typescript-config": "workspace:*",
-    "prettier": "^3.2.5",
-    "turbo": "latest"
+    "@brionmario/eslint-plugin": "^0.2.9",
+    "@brionmario/prettier-config": "^0.1.0",
+    "@changesets/changelog-github": "^0.4.8",
+    "@changesets/cli": "^2.26.0",
+    "eslint": "^8.41.0",
+    "eslint-config-turbo": "^1.10.3",
+    "prettier": "^2.8.8",
+    "turbo": "^1.11.2",
+    "typescript": "^5.4.2"
   },
-  "packageManager": "pnpm@8.9.0",
-  "engines": {
-    "node": ">=18"
-  }
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
 }

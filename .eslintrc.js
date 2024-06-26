@@ -1,10 +1,8 @@
-// This configuration only applies to the package manager root.
-/** @type {import("eslint").Linter.Config} */
 module.exports = {
-  ignorePatterns: ["apps/**", "packages/**"],
-  extends: ["@repo/eslint-config/library.js"],
-  parser: "@typescript-eslint/parser",
-  parserOptions: {
-    project: true,
+  env: {
+    es6: true,
+    node: true,
   },
+  extends: ['turbo', 'plugin:@brionmario/internal', 'plugin:@brionmario/prettier'],
+  plugins: ['@brionmario'],
 };
