@@ -63,6 +63,7 @@ const SDKConfigurationCenter: FC<SDKConfigurationCenterProps> = ({children}) => 
     setParsedSDKConfig({
       ...config,
       storage: sdkStorage,
+      resourceServerURLs: [...(config?.resourceServerURLs || []), 'http://localhost:3002'],
     } as AuthReactConfig);
 
     sessionStorage.setItem('xss_playground-sdk-storage', sdkStorage);
