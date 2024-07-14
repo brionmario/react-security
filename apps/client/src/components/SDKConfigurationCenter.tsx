@@ -11,10 +11,11 @@ import './sdk-configuration-center.css';
 export type SDKConfigurationCenterProps = PropsWithChildren;
 
 const SDKConfigurationCenter: FC<SDKConfigurationCenterProps> = ({children}) => {
-  const {updateConfig, signOut, signIn} = useAuthContext();
+  const {updateConfig, signOut} = useAuthContext();
 
   const [sdkConfig, setSDKConfig] = useState<string>('');
-  const [sdkStorage, setSDKStorage] = useState<Storage>(Storage.SessionStorage);
+  const [sdkStorage, setSDKStorage] = useState<Storage>(
+    sessionStorage.getItem('xss_playground-sdk-storage') as Storage || Storage.SessionStorage);
 
   useEffect(() => {
     (async () => {
@@ -27,6 +28,10 @@ const SDKConfigurationCenter: FC<SDKConfigurationCenterProps> = ({children}) => 
       setParsedSDKConfig(config);
     })();
   }, []);
+
+  useEffect(() => {
+    handleUpdateSDKConfig();
+  }, [sdkStorage]);
 
   const getSDKConfigFromStorage = (): AuthReactConfig | null => {
     let config: AuthReactConfig | null = null;
@@ -53,7 +58,7 @@ const SDKConfigurationCenter: FC<SDKConfigurationCenterProps> = ({children}) => 
     );
   };
 
-  const handleUpdateSDKConfig = async () => {
+  const handleUpdateSDKConfig = () => {
     updateConfig({
       storage: sdkStorage,
     });
@@ -67,10 +72,6 @@ const SDKConfigurationCenter: FC<SDKConfigurationCenterProps> = ({children}) => 
     } as AuthReactConfig);
 
     sessionStorage.setItem('xss_playground-sdk-storage', sdkStorage);
-
-    await signOut();
-
-    await signIn();
   };
 
   return (
@@ -127,8 +128,8 @@ const SDKConfigurationCenter: FC<SDKConfigurationCenterProps> = ({children}) => 
               The storage medium where the session information such as the access token should be stored.
             </FormHelperText>
           </Box>
-          <Button variant="contained" size="small" color="primary" sx={{mt: 2}} onClick={handleUpdateSDKConfig}>
-            Update & Sign In Again
+          <Button variant="contained" size="small" color="primary" sx={{mt: 2}} onClick={() => signOut()}>
+            Sign In again to update the storage
           </Button>
         </Box>
         {children}
